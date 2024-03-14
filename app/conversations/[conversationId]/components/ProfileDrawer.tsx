@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { Fragment, useMemo, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { IoClose, IoTrash } from 'react-icons/io5'
-import { Conversation, User } from '@prisma/client';
-import { format } from 'date-fns';
+import { Fragment, useMemo, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { IoClose, IoTrash } from "react-icons/io5";
+import { Conversation, User } from "@prisma/client";
+import { format } from "date-fns";
 
-import useOtherUser from '@/app/hooks/useOtherUser';
-import useActiveList from '@/app/hooks/useActiveList';
+import useOtherUser from "@/app/hooks/useOtherUser";
+import useActiveList from "@/app/hooks/useActiveList";
 
-import Avatar from '@/app/components/Avatar';
-import AvatarGroup from '@/app/components/AvatarGroup';
-import ConfirmModal from './ConfirmModal';
+import Avatar from "@/app/components/Avatar";
+import AvatarGroup from "@/app/components/AvatarGroup";
+import ConfirmModal from "./ConfirmModal";
 
 interface ProfileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   data: Conversation & {
-    users: User[]
-  }
+    users: User[];
+  };
 }
 
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
@@ -28,11 +28,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOtherUser(data);
-  
+
   const joinedDate = useMemo(() => {
-    return format(new Date(otherUser.createdAt), 'PP');
+    return format(new Date(otherUser.createdAt), "PP");
   }, [otherUser.createdAt]);
-  
+
   const title = useMemo(() => {
     return data.name || otherUser.name;
   }, [data.name, otherUser.name]);
@@ -45,13 +45,13 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       return `${data.users.length} members`;
     }
 
-    return isActive ? 'Active' : 'Offline'
+    return isActive ? "Active" : "Offline";
   }, [data, isActive]);
 
   return (
     <>
-      <ConfirmModal 
-        isOpen={confirmOpen} 
+      <ConfirmModal
+        isOpen={confirmOpen}
         onClose={() => setConfirmOpen(false)}
       />
       <Transition.Root show={isOpen} as={Fragment}>
@@ -65,8 +65,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-          <div className="fixed inset-0 bg-black bg-opacity-40" />
-        </Transition.Child>
+            <div className="fixed inset-0 bg-black bg-opacity-40" />
+          </Transition.Child>
 
           <div className="fixed inset-0 overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
@@ -99,16 +99,21 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
+                            {data.isGroup ? (
+                              <AvatarGroup users={data.users} />
+                            ) : (
+                              <Avatar user={otherUser} />
+                            )}
                           </div>
-                          <div>
-                            {title}
-                          </div>
+                          <div>{title}</div>
                           <div className="text-sm text-gray-500">
                             {statusText}
                           </div>
                           <div className="flex gap-10 my-8">
-                            <div onClick={() => setConfirmOpen(true)} className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
+                            <div
+                              onClick={() => setConfirmOpen(true)}
+                              className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
+                            >
                               <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
                                 <IoTrash size={20} />
                               </div>
@@ -117,90 +122,92 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                               </div>
                             </div>
                           </div>
-                        <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
-                        <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
-                          {data.isGroup && (
-                            <div>
-                              <dt 
-                                className="
+                          <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
+                            <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
+                              {data.isGroup && (
+                                <div>
+                                  <dt
+                                    className="
                                   text-sm 
                                   font-medium 
                                   text-gray-500 
                                   sm:w-40 
                                   sm:flex-shrink-0
                                 "
-                              >
-                                Emails
-                              </dt>
-                              <dd 
-                                className="
+                                  >
+                                    Emails
+                                  </dt>
+                                  <dd
+                                    className="
                                   mt-1 
                                   text-sm 
                                   text-gray-900 
                                   sm:col-span-2
                                 "
-                              >
-                                {data.users.map((user) => user.email).join(', ')}
-                              </dd>
-                            </div>
-                          )}
-                          {!data.isGroup && (
-                            <div>
-                              <dt 
-                                className="
+                                  >
+                                    {data.users
+                                      .map((user) => user.email)
+                                      .join(", ")}
+                                  </dd>
+                                </div>
+                              )}
+                              {!data.isGroup && (
+                                <div>
+                                  <dt
+                                    className="
                                   text-sm 
                                   font-medium 
                                   text-gray-500 
                                   sm:w-40 
                                   sm:flex-shrink-0
                                 "
-                              >
-                                Email
-                              </dt>
-                              <dd 
-                                className="
+                                  >
+                                    Email
+                                  </dt>
+                                  <dd
+                                    className="
                                   mt-1 
                                   text-sm 
                                   text-gray-900 
                                   sm:col-span-2
                                 "
-                              >
-                                {otherUser.email}
-                              </dd>
-                            </div>
-                          )}
-                          {!data.isGroup && (
-                            <>
-                              <hr />
-                              <div>
-                                <dt 
-                                  className="
+                                  >
+                                    {otherUser.email}
+                                  </dd>
+                                </div>
+                              )}
+                              {!data.isGroup && (
+                                <>
+                                  <hr />
+                                  <div>
+                                    <dt
+                                      className="
                                     text-sm 
                                     font-medium 
                                     text-gray-500 
                                     sm:w-40 
                                     sm:flex-shrink-0
                                   "
-                                >
-                                  Joined
-                                </dt>
-                                <dd 
-                                  className="
+                                    >
+                                      Joined
+                                    </dt>
+                                    <dd
+                                      className="
                                     mt-1 
                                     text-sm 
                                     text-gray-900 
                                     sm:col-span-2
                                   "
-                                >
-                                  <time dateTime={joinedDate}>
-                                    {joinedDate}
-                                  </time>
-                                </dd>
-                              </div>
-                            </>
-                          )}
-                        </dl>
-                      </div>
+                                    >
+                                      <time dateTime={joinedDate}>
+                                        {joinedDate}
+                                      </time>
+                                    </dd>
+                                  </div>
+                                </>
+                              )}
+                            </dl>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -212,7 +219,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
         </Dialog>
       </Transition.Root>
     </>
-  )
-}
+  );
+};
 
 export default ProfileDrawer;

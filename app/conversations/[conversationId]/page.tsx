@@ -21,10 +21,10 @@ const ChatId = async ({ params }: { params: IParams }) => {
           <EmptyState />
         </div>
       </div>
-    )
+    );
   }
 
-  return ( 
+  return (
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
         <Header conversation={conversation} />
@@ -33,6 +33,6 @@ const ChatId = async ({ params }: { params: IParams }) => {
       </div>
     </div>
   );
-}
+};
 
 export default ChatId;

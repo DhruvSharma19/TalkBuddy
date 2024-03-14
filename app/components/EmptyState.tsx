@@ -1,6 +1,6 @@
 const EmptyState = () => {
-  return ( 
-    <div 
+  return (
+    <div
       className="
         px-4 
         py-10 
@@ -21,6 +21,6 @@ const EmptyState = () => {
       </div>
     </div>
   );
-}
- 
+};
+
 export default EmptyState;

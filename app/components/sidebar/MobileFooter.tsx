@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import useConversation from "@/app/hooks/useConversation";
 import useRoutes from "@/app/hooks/useRoutes";
@@ -12,8 +12,8 @@ const MobileFooter = () => {
     return null;
   }
 
-  return ( 
-    <div 
+  return (
+    <div
       className="
         fixed 
         justify-between 
@@ -28,16 +28,16 @@ const MobileFooter = () => {
       "
     >
       {routes.map((route) => (
-        <MobileItem 
-          key={route.href} 
-          href={route.href} 
-          active={route.active} 
+        <MobileItem
+          key={route.href}
+          href={route.href}
+          active={route.active}
           icon={route.icon}
           onClick={route.onClick}
         />
       ))}
     </div>
-   );
-}
- 
+  );
+};
+
 export default MobileFooter;

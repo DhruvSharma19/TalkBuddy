@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
 import { pusherServer } from "@/app/libs/pusher";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function handler(
-  request: NextApiRequest, 
+  request: NextApiRequest,
   response: NextApiResponse
 ) {
   const session = await getServerSession(request, response, authOptions);
@@ -22,4 +22,4 @@ export default async function handler(
 
   const authResponse = pusherServer.authorizeChannel(socketId, channel, data);
   return response.send(authResponse);
-};
+}
